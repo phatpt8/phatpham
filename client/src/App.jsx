@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/auth';
+import { useThemeStore } from './store/theme';
 import Layout from './components/Layout';
 import MePage from './pages/Me';
 import BlogPage from './pages/Blog';
@@ -9,11 +10,13 @@ import EditorPage from './pages/Editor';
 import LoginPage from './pages/Login';
 
 export default function App() {
-  const init = useAuthStore((s) => s.init);
+  const initAuth = useAuthStore((s) => s.init);
+  const initTheme = useThemeStore((s) => s.init);
 
   useEffect(() => {
-    init();
-  }, [init]);
+    initAuth();
+    initTheme();
+  }, [initAuth, initTheme]);
 
   return (
     <Routes>
