@@ -1,14 +1,10 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
-import { api } from '../lib/api';
-import { useEffect, useRef } from 'react';
+import { getAllPosts } from '../content';
 
-function estimateReadTime(excerpt) {
-  const words = excerpt?.split(/\s+/).length || 0;
-  return Math.max(1, Math.ceil(words / 200));
-}
+const POSTS_PER_PAGE = 10;
 
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('en-US', {
@@ -19,35 +15,14 @@ function formatDate(dateStr) {
 }
 
 export default function BlogPage() {
-  const loadMoreRef = useRef(null);
+  const allPosts = useMemo(() => getAllPosts(), []);
+  const [visible, setVisible] = useState(POSTS_PER_PAGE);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteQuery({
-      queryKey: ['posts'],
-      queryFn: ({ pageParam }) => api.posts.list({ cursor: pageParam }),
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-      initialPageParam: undefined,
-    });
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const el = loadMoreRef.current;
-    if (el) observer.observe(el);
-    return () => { if (el) observer.unobserve(el); };
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  const posts = data?.pages.flatMap((p) => p.posts) ?? [];
+  const posts = allPosts.slice(0, visible);
+  const hasMore = visible < allPosts.length;
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16 space-y-8">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -59,19 +34,7 @@ export default function BlogPage() {
         </p>
       </motion.div>
 
-      {isLoading && (
-        <div className="space-y-4">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="glass rounded-xl p-6 animate-pulse space-y-3">
-              <div className="h-5 bg-muted rounded w-2/3" />
-              <div className="h-4 bg-muted rounded w-full" />
-              <div className="h-4 bg-muted rounded w-1/2" />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {!isLoading && posts.length === 0 && (
+      {posts.length === 0 && (
         <div className="glass rounded-xl p-12 text-center space-y-3">
           <p className="text-muted-foreground">No posts yet. The journey begins soon.</p>
         </div>
@@ -80,23 +43,23 @@ export default function BlogPage() {
       <div className="space-y-4">
         {posts.map((post, i) => (
           <motion.article
-            key={post.id}
+            key={post.slug}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05, duration: 0.3 }}
           >
             <Link
               to={`/blog/${post.slug}`}
-              className="group glass rounded-xl p-6 block space-y-3 hover:border-primary/30 transition-all duration-300 hover:glow"
+              className="group glass rounded-xl p-5 sm:p-6 block space-y-3 hover:border-primary/30 transition-all duration-300 hover:glow"
             >
               <div className="flex items-center gap-3 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <Calendar size={12} />
-                  {formatDate(post.created_at)}
+                  {formatDate(post.date)}
                 </span>
                 <span className="flex items-center gap-1">
                   <Clock size={12} />
-                  {estimateReadTime(post.excerpt)} min read
+                  {post.readTime} min read
                 </span>
               </div>
 
@@ -129,13 +92,16 @@ export default function BlogPage() {
         ))}
       </div>
 
-      <div ref={loadMoreRef} className="py-8 text-center">
-        {isFetchingNextPage && (
-          <div className="flex justify-center">
-            <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-          </div>
-        )}
-      </div>
+      {hasMore && (
+        <div className="text-center pt-4">
+          <button
+            onClick={() => setVisible((v) => v + POSTS_PER_PAGE)}
+            className="px-6 py-2.5 text-sm rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
+          >
+            Load more
+          </button>
+        </div>
+      )}
     </div>
   );
 }

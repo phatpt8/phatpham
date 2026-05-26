@@ -206,7 +206,7 @@ export default function MePage() {
               <span className="gradient-text">Phat Pham</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-light">
-              Senior Fullstack Engineer
+              Software Engineer · Builder · Problem Solver
             </p>
           </motion.div>
 
