@@ -11,41 +11,39 @@ I have a confession: I used to be a "figure it out while coding" engineer. Open 
 
 It worked. Sort of. Until AI tools made me realize how much time I was wasting by thinking *in code* instead of thinking *before code*.
 
-## The old way (aka "vibes-driven development")
+## The old way (aka vibes-driven development)
 
 Here's how a feature used to go:
 
 ```mermaid
-graph LR
-    A[Ticket assigned] --> B[Open IDE immediately]
-    B --> C[Start coding]
+graph TD
+    A[Ticket] --> B[Open IDE]
+    B --> C[Code]
     C --> D[Hit edge case]
     D --> E[Refactor]
-    E --> F[Hit another edge case]
+    E --> F[Another edge case]
     F --> G[Refactor again]
-    G --> H[Code review: "what about X?"]
+    G --> H[Code review]
     H --> I[More refactoring]
-    I --> J[Ship it]
+    I --> J[Ship]
 ```
 
-Notice how many loops there are? Every "refactor" is me discovering something I should have thought about before writing a single line.
+9 steps. Loops everywhere. Every "refactor" is me discovering something I should have thought about before writing a single line.
 
 ## The new way (spec-first with AI)
 
-Now my workflow looks like this:
-
 ```mermaid
-graph LR
-    A[Ticket assigned] --> B[Write spec in plain English]
-    B --> C[AI pressure-tests the spec]
-    C --> D[Refine spec with edge cases]
-    D --> E[Generate implementation plan]
-    E --> F[Code with clear direction]
-    F --> G[Code review: minimal changes]
-    G --> H[Ship it]
+graph TD
+    A[Ticket] --> B[Write spec]
+    B --> C[AI pressure-tests spec]
+    C --> D[Refine edge cases]
+    D --> E[Implementation plan]
+    E --> F[Code with direction]
+    F --> G[Clean review]
+    G --> H[Ship]
 ```
 
-Fewer loops. Less rework. The thinking happens upfront, where it's cheap to change your mind.
+7 steps. No loops. The thinking happens upfront, where it's cheap to change your mind.
 
 ## What a "spec" actually looks like
 

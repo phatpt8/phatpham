@@ -3,8 +3,63 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import mermaid from 'mermaid';
 import { ArrowLeft, Calendar, Clock, ChevronDown } from 'lucide-react';
 import { getPostBySlug, getAllPosts } from '../content';
+
+mermaid.initialize({
+  startOnLoad: false,
+  theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+  fontFamily: 'Inter, sans-serif',
+});
+
+function Mermaid({ chart }) {
+  const ref = useRef(null);
+  const [scale, setScale] = useState(1);
+  const idRef = useRef(`mermaid-${Math.random().toString(36).slice(2, 9)}`);
+
+  useEffect(() => {
+    if (!ref.current || !chart) return;
+    const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+    mermaid.render(id, chart).then(({ svg }) => {
+      ref.current.innerHTML = svg;
+      const svgEl = ref.current.querySelector('svg');
+      if (svgEl) {
+        svgEl.style.maxWidth = '100%';
+        svgEl.style.height = 'auto';
+        svgEl.style.maxHeight = '500px';
+      }
+    }).catch(() => {
+      ref.current.innerHTML = `<pre class="text-xs text-muted-foreground">${chart}</pre>`;
+    });
+  }, [chart]);
+
+  return (
+    <div className="my-6 rounded-xl border border-border bg-muted/30 p-4 overflow-hidden">
+      <div className="flex justify-end gap-1 mb-2">
+        <button
+          onClick={() => setScale((s) => Math.max(0.5, s - 0.25))}
+          className="px-2 py-0.5 text-xs rounded bg-muted border border-border text-muted-foreground hover:text-foreground cursor-pointer"
+        >−</button>
+        <button
+          onClick={() => setScale(1)}
+          className="px-2 py-0.5 text-xs rounded bg-muted border border-border text-muted-foreground hover:text-foreground cursor-pointer"
+        >{Math.round(scale * 100)}%</button>
+        <button
+          onClick={() => setScale((s) => Math.min(2, s + 0.25))}
+          className="px-2 py-0.5 text-xs rounded bg-muted border border-border text-muted-foreground hover:text-foreground cursor-pointer"
+        >+</button>
+      </div>
+      <div className="overflow-auto">
+        <div
+          ref={ref}
+          className="flex justify-center transition-transform duration-200 origin-top-left"
+          style={{ transform: `scale(${scale})` }}
+        />
+      </div>
+    </div>
+  );
+}
 
 function useNextPost(currentSlug) {
   const posts = getAllPosts();
@@ -264,7 +319,22 @@ export default function PostPage() {
           prose-th:text-foreground prose-td:text-muted-foreground
           prose-img:rounded-xl prose-img:border prose-img:border-border
         ">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              pre({ children, node, ...props }) {
+                const codeChild = node?.children?.[0];
+                if (codeChild?.tagName === 'code') {
+                  const className = codeChild.properties?.className?.[0] || '';
+                  if (className === 'language-mermaid') {
+                    const text = codeChild.children?.[0]?.value || '';
+                    return <Mermaid chart={text.trim()} />;
+                  }
+                }
+                return <pre {...props}>{children}</pre>;
+              },
+            }}
+          >{post.content}</ReactMarkdown>
         </div>
       </motion.article>
 
