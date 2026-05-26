@@ -65,7 +65,19 @@ export default function PostPage() {
         )}
       </header>
 
-      <div className="prose prose-invert prose-indigo max-w-none prose-headings:font-semibold prose-a:text-primary prose-code:font-mono prose-code:text-sm prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground">
+      <div className="prose max-w-none
+        prose-headings:text-foreground prose-headings:font-semibold
+        prose-p:text-muted-foreground prose-p:leading-relaxed
+        prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-foreground
+        prose-code:text-primary prose-code:font-mono prose-code:text-sm prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-border
+        prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-pre:rounded-xl
+        prose-blockquote:border-primary/50 prose-blockquote:text-muted-foreground prose-blockquote:italic
+        prose-li:text-muted-foreground
+        prose-hr:border-border
+        prose-th:text-foreground prose-td:text-muted-foreground
+        prose-img:rounded-xl prose-img:border prose-img:border-border
+      ">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
       </div>
     </motion.article>

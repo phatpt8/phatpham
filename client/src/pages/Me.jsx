@@ -338,12 +338,12 @@ export default function MePage() {
 
         {/* Scroll indicator — hidden on mobile */}
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex"
-          animate={{ y: [0, 8, 0] }}
+          className="absolute bottom-3 left-1/2 -translate-x-1/2 hidden sm:flex"
+          animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
         >
-          <div className="w-5 h-8 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-1.5">
-            <div className="w-1 h-2 rounded-full bg-primary/60" />
+          <div className="w-4 h-7 rounded-full border-2 border-muted-foreground/20 flex justify-center pt-1.5">
+            <div className="w-0.5 h-1.5 rounded-full bg-primary/40" />
           </div>
         </motion.div>
       </section>
@@ -389,10 +389,10 @@ export default function MePage() {
                 border: `1px solid ${job.colors.border}`,
                 boxShadow: `0 0 20px ${job.colors.bg}, 0 0 60px ${job.colors.bg}`,
               }}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-30px' }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.01, boxShadow: `0 0 30px ${job.colors.border}, 0 0 80px ${job.colors.bg}` }}
             >
               {/* Timeline dot — desktop only */}

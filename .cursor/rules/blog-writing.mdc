@@ -1,0 +1,36 @@
+---
+description: Writing style guide for blog posts in this project
+globs: client/src/content/posts/**/*.md
+---
+
+# Blog Post Writing Style
+
+Every blog post must follow this voice and structure:
+
+## Voice & Tone
+- **Storytelling first**: Lead with a personal anecdote or relatable scenario, not a textbook definition
+- **Friendly & conversational**: Write like you're explaining to a smart friend over coffee
+- **Insightful**: Every post should leave the reader with at least one "aha" moment they can apply immediately
+- **Funny & self-aware**: Light humor, self-deprecation, and honest takes. Don't be afraid to say "I messed up" or "this sounds dumb, but..."
+- **Opinionated**: Take a stance. Weak opinions make boring posts.
+
+## Structure
+1. **Hook**: Start with something unexpected — a story, a confession, a contrarian take
+2. **Context**: Briefly set the scene — why does this matter?
+3. **The meat**: Share the insight, journey, or lesson with specific examples
+4. **The twist**: What did you learn that surprised you? What would you do differently?
+5. **Takeaway**: End with something actionable or thought-provoking
+
+## Rules
+- No corporate speak. Never say "leverage", "synergy", or "at the end of the day"
+- Use "I" freely — this is a personal blog
+- Short paragraphs. If a paragraph is longer than 4 lines, break it up.
+- Use code examples only when they add clarity, not to show off
+- Relate technical concepts to non-technical metaphors when possible
+- Include at least one moment of vulnerability or honesty per post
+
+## Personality to reflect
+- Builder mindset: always making something
+- Curious: constantly experimenting with new tools and approaches
+- Pragmatic: cares about outcomes, not hype
+- Funny: doesn't take themselves too seriously
