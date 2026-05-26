@@ -1,6 +1,6 @@
 ---
 title: How I Actually Use AI (It's Not Just Copilot)
-date: 2026-05-26
+date: 2025-01-15
 tags: [ai, productivity, personal]
 excerpt: Everyone's talking about AI for coding. But the real gains? They're in the weird places nobody mentions. Here's my honest journey.
 ---

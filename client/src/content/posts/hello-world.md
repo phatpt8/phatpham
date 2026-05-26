@@ -1,6 +1,6 @@
 ---
 title: Hello World
-date: 2026-05-25
+date: 2025-01-01
 tags: [meta, intro]
 excerpt: The beginning of something new. Why I decided to build this blog and what you can expect from it.
 ---
