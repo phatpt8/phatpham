@@ -146,17 +146,6 @@ function RotatingQuote() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="flex gap-1.5 pt-4">
-        {quotes.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIndex(i)}
-            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-              i === index ? 'bg-primary w-4' : 'bg-muted-foreground/30'
-            }`}
-          />
-        ))}
-      </div>
     </div>
   );
 }
@@ -262,8 +251,8 @@ export default function MePage() {
             transition={{ delay: 0.7, duration: 0.5 }}
           >
             <a
-              href="/ppham-cv.pdf"
-              download
+              href={`${import.meta.env.BASE_URL}ppham-cv.pdf`}
+              download="Phat_Pham_CV.pdf"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]"
             >
               <Download size={16} />
