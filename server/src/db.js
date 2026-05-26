@@ -8,6 +8,8 @@ const db = new Database(join(__dirname, '..', 'blog.db'));
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
+import bcrypt from 'bcryptjs';
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,5 +30,11 @@ db.exec(`
     updated_at TEXT DEFAULT (datetime('now'))
   );
 `);
+
+const existing = db.prepare('SELECT id FROM users WHERE username = ?').get('phatpham');
+if (!existing) {
+  const hash = bcrypt.hashSync('admin', 10);
+  db.prepare('INSERT INTO users (username, password) VALUES (?, ?)').run('phatpham', hash);
+}
 
 export default db;

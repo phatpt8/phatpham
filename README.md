@@ -1,12 +1,12 @@
-# ppham/blog
+# phatpham
 
-Personal blog site for Phat Pham — software engineer portfolio, blog posts, and markdown editor.
+Personal blog and portfolio site for Phat Pham.
 
 ## Stack
 
-- **Frontend**: React 19, Vite 8, Tailwind CSS v4, shadcn/ui, Motion
+- **Frontend**: React 19, Vite 8, Tailwind CSS v4, shadcn/ui, Framer Motion
 - **Backend**: Express 5, better-sqlite3, JWT auth
-- **Data**: TanStack Query (server state), Zustand (auth state)
+- **State**: Zustand (client), static markdown (blog content)
 - **Editor**: @uiw/react-md-editor with live preview
 
 ## Quick Start
@@ -16,38 +16,38 @@ npm install
 npm run dev
 ```
 
-This starts both:
-- Client at http://localhost:5173
-- Server at http://localhost:3001
-
-## First-time Setup
-
-1. Start the app with `npm run dev`
-2. Navigate to `/login`
-3. The first user to register becomes the admin (registration closes after)
-4. Go to `/editor` to write posts
+- Client: http://localhost:5173
+- Server: http://localhost:3002
 
 ## Routes
 
 | Path | Description |
 |------|-------------|
-| `/me` | Resume / portfolio |
-| `/blog` | Published posts (infinite scroll) |
-| `/blog/:slug` | Single post view |
-| `/editor` | Create new post (auth required) |
-| `/editor/:id` | Edit existing post (auth required) |
-| `/login` | Authentication |
+| `/#/me` | Resume / portfolio |
+| `/#/blog` | Published posts |
+| `/#/blog/:slug` | Single post view |
+| `/#/editor` | Create new post (auth required) |
+| `/#/login` | Authentication |
+
+## Auth
+
+Pre-seeded admin account. No registration endpoint.
+
+## Deployment
+
+Static frontend deployed to GitHub Pages via `gh-pages` branch. Blog posts are bundled as static markdown files.
 
 ## Project Structure
 
 ```
 blog/
-├── client/           # React SPA
+├── client/           # React SPA (HashRouter)
+│   ├── public/       # Static assets (CV, graffiti logo)
 │   └── src/
 │       ├── components/
+│       ├── content/  # Markdown blog posts
 │       ├── pages/
-│       ├── store/
-│       └── lib/
+│       └── store/
 ├── server/           # Express API
 │   └── src/
 │       ├── routes/

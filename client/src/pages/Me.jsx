@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { MapPin, Mail, Briefcase, Code2, GraduationCap, Download } from 'lucide-react';
+import { useThemeStore } from '../store/theme';
 
 function CompanyLogo({ src, alt, className = '' }) {
   const [failed, setFailed] = useState(false);
@@ -51,75 +52,76 @@ const quotes = [
   { text: "Simplicity is the ultimate sophistication.", author: "Leonardo da Vinci" },
 ];
 
-const titles = ['Software Engineer', 'Builder', 'Problem Solver'];
+const titles = ['Software Engineer', 'Builder', 'Problem Solver', 'Visualizer'];
+
+const scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
 
 function FlipTitle() {
-  const [index, setIndex] = useState(0);
+  const [display, setDisplay] = useState(titles[0]);
+  const indexRef = useRef(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((i) => (i + 1) % titles.length);
-    }, 3000);
+      indexRef.current = (indexRef.current + 1) % titles.length;
+      const target = titles[indexRef.current];
+      const maxLen = Math.max(display.length, target.length);
+      const delays = Array.from({ length: maxLen }, () => Math.random() * 800);
+
+      const settled = new Array(maxLen).fill(false);
+      const current = display.padEnd(maxLen, ' ').split('');
+
+      const tick = setInterval(() => {
+        const now = Date.now();
+        let allDone = true;
+
+        for (let i = 0; i < maxLen; i++) {
+          if (settled[i]) continue;
+          if (now - start > delays[i] + i * 50) {
+            current[i] = target[i] || '';
+            settled[i] = true;
+          } else {
+            current[i] = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+            allDone = false;
+          }
+        }
+
+        setDisplay(current.join('').trimEnd());
+        if (allDone) clearInterval(tick);
+      }, 70);
+
+      const start = Date.now();
+    }, 4000);
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="h-8 sm:h-10 md:h-12 overflow-hidden relative">
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={index}
-          initial={{ y: 40, rotateX: -90, opacity: 0 }}
-          animate={{ y: 0, rotateX: 0, opacity: 1 }}
-          exit={{ y: -40, rotateX: 90, opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="block text-lg sm:text-xl md:text-2xl font-medium"
-          style={{ perspective: '200px' }}
+    <div className="h-8 sm:h-10 md:h-12 flex items-center font-mono">
+      {display.split('').map((char, i) => (
+        <span
+          key={i}
+          className="inline-block text-lg sm:text-xl md:text-2xl font-semibold text-primary transition-all duration-75"
         >
-          <span className="text-primary">{titles[index]}</span>
-        </motion.span>
-      </AnimatePresence>
+          {char === ' ' ? '\u00A0' : char}
+        </span>
+      ))}
     </div>
   );
 }
 
 function GraffitiName() {
+  const theme = useThemeStore((s) => s.theme);
+  const src = `${import.meta.env.BASE_URL}phat-pham-graffiti-${theme}.png`;
+
   return (
-    <h1 className="text-5xl sm:text-6xl md:text-8xl font-black mb-3 sm:mb-4 select-none">
-      <span
-        className="inline-block"
-        style={{
-          fontFamily: '"Inter", system-ui, sans-serif',
-          fontWeight: 900,
-          fontStyle: 'italic',
-          letterSpacing: '-0.03em',
-          background: 'linear-gradient(135deg, #ff006e, #fb5607, #ffbe0b, #06d6a0, #118ab2, #8338ec)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          filter: 'drop-shadow(2px 2px 0px rgba(0,0,0,0.3))',
-          textShadow: 'none',
-        }}
-      >
-        Phat
-      </span>
-      {' '}
-      <span
-        className="inline-block -rotate-2"
-        style={{
-          fontFamily: '"Inter", system-ui, sans-serif',
-          fontWeight: 900,
-          fontStyle: 'italic',
-          letterSpacing: '-0.03em',
-          background: 'linear-gradient(135deg, #8338ec, #3a86ff, #06d6a0, #ffbe0b, #ff006e)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          filter: 'drop-shadow(2px 2px 0px rgba(0,0,0,0.3))',
-        }}
-      >
-        Pham
-      </span>
-    </h1>
+    <div className="mb-3 sm:mb-4 select-none -mx-4 sm:-mx-8">
+      <img
+        src={src}
+        alt="Phat Pham"
+        className="h-40 sm:h-56 md:h-72 w-auto object-contain"
+        draggable={false}
+      />
+    </div>
   );
 }
 
