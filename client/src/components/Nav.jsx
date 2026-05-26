@@ -51,9 +51,9 @@ const links = [
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(getSavedPosition);
-  const [dragging, setDragging] = useState(false);
   const dragRef = useRef(null);
   const dragStartRef = useRef({ x: 0, y: 0 });
+  const movedRef = useRef(false);
   const posRef = useRef(pos);
 
   const { user, logout } = useAuthStore();
@@ -80,28 +80,30 @@ export default function Nav() {
   }, []);
 
   const handlePointerDown = useCallback((e) => {
-    setDragging(false);
-    dragStartRef.current = { x: e.clientX - posRef.current.x, y: e.clientY - posRef.current.y };
+    movedRef.current = false;
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+    const startPos = { x: posRef.current.x, y: posRef.current.y };
     const onMove = (ev) => {
-      setDragging(true);
+      const dx = ev.clientX - dragStartRef.current.x;
+      const dy = ev.clientY - dragStartRef.current.y;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) movedRef.current = true;
       const maxX = window.innerWidth - FAB_SIZE - SAFE_MARGIN;
       const maxY = window.innerHeight - FAB_SIZE - SAFE_MARGIN;
-      const nx = Math.max(SAFE_MARGIN, Math.min(ev.clientX - dragStartRef.current.x, maxX));
-      const ny = Math.max(SAFE_MARGIN, Math.min(ev.clientY - dragStartRef.current.y, maxY));
+      const nx = Math.max(SAFE_MARGIN, Math.min(startPos.x + dx, maxX));
+      const ny = Math.max(SAFE_MARGIN, Math.min(startPos.y + dy, maxY));
       setPos({ x: nx, y: ny });
     };
     const onUp = () => {
       document.removeEventListener('pointermove', onMove);
       document.removeEventListener('pointerup', onUp);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(posRef.current));
-      setTimeout(() => setDragging(false), 100);
     };
     document.addEventListener('pointermove', onMove);
     document.addEventListener('pointerup', onUp);
   }, []);
 
   const handleClick = () => {
-    if (!dragging) setOpen(!open);
+    if (!movedRef.current) setOpen(!open);
   };
 
   const visibleLinks = links.filter((l) => !l.auth || user);
@@ -112,9 +114,10 @@ export default function Nav() {
   ];
 
   const totalItems = allItems.length;
-  const fanAngle = 100;
+  const isMobileView = window.innerWidth < 640;
+  const fanAngle = isMobileView ? 100 : 120;
   const startAngle = getFanDirection(pos);
-  const radius = 65;
+  const radius = isMobileView ? 65 : 85;
 
   return (
     <>
@@ -143,9 +146,9 @@ export default function Nav() {
                   exit={{ x: 0, y: 0, scale: 0, opacity: 0 }}
                   transition={{
                     type: 'spring',
-                    stiffness: 400,
-                    damping: 22,
-                    delay: i * 0.04,
+                    stiffness: 600,
+                    damping: 25,
+                    delay: i * 0.02,
                   }}
                 >
                   {item.type === 'link' && (
@@ -155,10 +158,10 @@ export default function Nav() {
                       className="flex flex-col items-center gap-1"
                     >
                       <div
-                        className={`w-11 h-11 rounded-full flex items-center justify-center shadow-lg backdrop-blur-md transition-colors ${
+                        className={`w-11 h-11 rounded-full flex items-center justify-center shadow-sm backdrop-blur-xl transition-colors ${
                           location.pathname === item.to
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-card/90 border border-border text-foreground hover:bg-primary/20'
+                            ? 'bg-primary/70 text-primary-foreground border border-white/20'
+                            : 'bg-white/10 border border-white/15 text-foreground hover:bg-white/20'
                         }`}
                       >
                         <item.icon size={18} />
@@ -172,9 +175,9 @@ export default function Nav() {
                   {item.type === 'theme' && (
                     <button
                       onClick={() => { toggleTheme(); setOpen(false); }}
-                      className="flex flex-col items-center gap-1"
+                      className="flex flex-col items-center gap-1 cursor-pointer"
                     >
-                      <div className="w-11 h-11 rounded-full flex items-center justify-center bg-card/90 border border-border text-foreground hover:bg-primary/20 shadow-lg backdrop-blur-md transition-colors">
+                      <div className="w-11 h-11 rounded-full flex items-center justify-center bg-white/10 border border-white/15 text-foreground hover:bg-white/20 shadow-sm backdrop-blur-xl transition-colors">
                         {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                       </div>
                       <span className="text-[10px] font-medium text-foreground hidden sm:block">
@@ -186,9 +189,9 @@ export default function Nav() {
                   {item.type === 'logout' && (
                     <button
                       onClick={() => { logout(); setOpen(false); }}
-                      className="flex flex-col items-center gap-1"
+                      className="flex flex-col items-center gap-1 cursor-pointer"
                     >
-                      <div className="w-11 h-11 rounded-full flex items-center justify-center bg-card/90 border border-border text-destructive hover:bg-destructive/20 shadow-lg backdrop-blur-md transition-colors">
+                      <div className="w-11 h-11 rounded-full flex items-center justify-center bg-white/10 border border-white/15 text-destructive hover:bg-white/20 shadow-sm backdrop-blur-xl transition-colors">
                         <LogOut size={18} />
                       </div>
                       <span className="text-[10px] font-medium text-foreground hidden sm:block">
@@ -205,7 +208,7 @@ export default function Nav() {
         <motion.button
           onPointerDown={handlePointerDown}
           onClick={handleClick}
-          className="relative w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-[0_0_20px_rgba(99,102,241,0.4)] flex items-center justify-center cursor-grab active:cursor-grabbing text-2xl select-none"
+          className="relative w-14 h-14 rounded-full bg-primary/70 backdrop-blur-xl text-primary-foreground shadow-[0_0_15px_rgba(99,102,241,0.2)] border border-white/10 flex items-center justify-center cursor-grab active:cursor-grabbing text-2xl select-none"
           whileTap={{ scale: 0.9 }}
           animate={{ rotate: open ? 180 : 0, scale: open ? 1.1 : 1 }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
