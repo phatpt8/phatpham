@@ -111,14 +111,30 @@ function FlipTitle() {
 
 function GraffitiName() {
   const theme = useThemeStore((s) => s.theme);
-  const src = `${import.meta.env.BASE_URL}phat-pham-graffiti-${theme}.png`;
+  const base = import.meta.env.BASE_URL;
 
   return (
-    <div className="mb-3 sm:mb-4 select-none -mx-4 sm:-mx-8">
+    <div className="mb-3 sm:mb-4 select-none -mx-4 sm:-mx-8 relative">
       <img
-        src={src}
+        src={`${base}phat-pham-graffiti-dark.png`}
         alt="Phat Pham"
-        className="h-40 sm:h-56 md:h-72 w-auto object-contain"
+        className="h-40 sm:h-56 md:h-72 w-auto object-contain transition-opacity duration-300"
+        style={{
+          opacity: theme === 'dark' ? 1 : 0,
+          maskImage: 'radial-gradient(ellipse 70% 70% at center, black 40%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 70% at center, black 40%, transparent 100%)',
+        }}
+        draggable={false}
+      />
+      <img
+        src={`${base}phat-pham-graffiti-light.png`}
+        alt="Phat Pham"
+        className="absolute top-0 left-0 h-40 sm:h-56 md:h-72 w-auto object-contain transition-opacity duration-300"
+        style={{
+          opacity: theme === 'light' ? 1 : 0,
+          maskImage: 'radial-gradient(ellipse 70% 70% at center, black 40%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 70% at center, black 40%, transparent 100%)',
+        }}
         draggable={false}
       />
     </div>
@@ -358,7 +374,7 @@ export default function MePage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            Eight years building high-traffic web platforms from zero to scale. I own problems
+            Building high-traffic web platforms from zero to scale. I own problems
             end-to-end, from shaping architecture and aligning stakeholders to shipping reliable,
             user-facing software at pace. Equally sharp working independently and leading
             cross-functional initiatives. I step into ambiguity, define the path forward, and

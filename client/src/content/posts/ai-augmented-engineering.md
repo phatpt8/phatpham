@@ -56,7 +56,7 @@ I think we're barely scratching the surface. Here's what I'm exploring:
 
 **Automated context building** — imagine your AI assistant actually understanding your entire codebase, your team's conventions, your deployment patterns. We're getting close.
 
-**Personal knowledge management** — I have 8 years of scattered notes, bookmarks, and "I read about this somewhere" memories. AI that can surface relevant past learnings when I'm working on something new? That's the dream.
+**Personal knowledge management** — I have tons of scattered notes, bookmarks, and "I read about this somewhere" memories. AI that can surface relevant past learnings when I'm working on something new? That's the dream.
 
 ## The honest truth
 
@@ -64,7 +64,7 @@ AI hasn't made me 10x. Anyone who claims that is selling something. But it's mad
 
 I write more docs. I explore more ideas. I prototype faster. I spend less time on boilerplate and more time on the interesting problems.
 
-And honestly? It's made engineering more fun again. After 8 years, that's worth a lot.
+And honestly? It's made engineering more fun again. That's worth a lot.
 
 ---
 

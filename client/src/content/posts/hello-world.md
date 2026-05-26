@@ -11,7 +11,7 @@ This is the beginning. A space to document what I learn, build, and think about 
 
 ## Why this blog?
 
-After 8 years of building platforms at scale, I realized that the best engineers I admire all share one trait: they write. They document their thinking, share their learnings, and build in public.
+After years of building platforms at scale, I realized that the best engineers I admire all share one trait: they write. They document their thinking, share their learnings, and build in public.
 
 This blog is my commitment to that practice.
 
