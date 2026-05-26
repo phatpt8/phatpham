@@ -51,11 +51,84 @@ const quotes = [
   { text: "Simplicity is the ultimate sophistication.", author: "Leonardo da Vinci" },
 ];
 
+const titles = ['Software Engineer', 'Builder', 'Problem Solver'];
+
+function FlipTitle() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((i) => (i + 1) % titles.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="h-8 sm:h-10 md:h-12 overflow-hidden relative">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={index}
+          initial={{ y: 40, rotateX: -90, opacity: 0 }}
+          animate={{ y: 0, rotateX: 0, opacity: 1 }}
+          exit={{ y: -40, rotateX: 90, opacity: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="block text-lg sm:text-xl md:text-2xl font-medium"
+          style={{ perspective: '200px' }}
+        >
+          <span className="text-primary">{titles[index]}</span>
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function GraffitiName() {
+  return (
+    <h1 className="text-5xl sm:text-6xl md:text-8xl font-black mb-3 sm:mb-4 select-none">
+      <span
+        className="inline-block"
+        style={{
+          fontFamily: '"Inter", system-ui, sans-serif',
+          fontWeight: 900,
+          fontStyle: 'italic',
+          letterSpacing: '-0.03em',
+          background: 'linear-gradient(135deg, #ff006e, #fb5607, #ffbe0b, #06d6a0, #118ab2, #8338ec)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          filter: 'drop-shadow(2px 2px 0px rgba(0,0,0,0.3))',
+          textShadow: 'none',
+        }}
+      >
+        Phat
+      </span>
+      {' '}
+      <span
+        className="inline-block -rotate-2"
+        style={{
+          fontFamily: '"Inter", system-ui, sans-serif',
+          fontWeight: 900,
+          fontStyle: 'italic',
+          letterSpacing: '-0.03em',
+          background: 'linear-gradient(135deg, #8338ec, #3a86ff, #06d6a0, #ffbe0b, #ff006e)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          filter: 'drop-shadow(2px 2px 0px rgba(0,0,0,0.3))',
+        }}
+      >
+        Pham
+      </span>
+    </h1>
+  );
+}
+
 const experience = [
   {
     title: 'Senior Fullstack Engineer',
     company: 'Omio.com',
     logo: 'https://www.google.com/s2/favicons?domain=omio.com&sz=64',
+    colors: { bg: 'rgba(0, 119, 204, 0.08)', border: 'rgba(0, 119, 204, 0.25)', accent: '#0077cc' },
     period: '2025 – Present',
     location: 'Berlin, Germany',
     team: 'Platform Core & Payments',
@@ -70,6 +143,7 @@ const experience = [
     title: 'Senior Frontend Engineer',
     company: 'Just Eat Takeaway',
     logo: 'https://www.google.com/s2/favicons?domain=justeattakeaway.com&sz=64',
+    colors: { bg: 'rgba(255, 128, 0, 0.08)', border: 'rgba(255, 128, 0, 0.25)', accent: '#ff8000' },
     period: '2022 – 2025',
     location: 'Berlin, Germany',
     team: 'Core Platform',
@@ -84,6 +158,7 @@ const experience = [
     title: 'Senior Fullstack Engineer',
     company: 'Axon (taser.com)',
     logo: 'https://www.google.com/s2/favicons?domain=axon.com&sz=64',
+    colors: { bg: 'rgba(255, 209, 0, 0.08)', border: 'rgba(255, 209, 0, 0.25)', accent: '#ffd100' },
     period: '2019 – 2022',
     location: 'Remote',
     team: 'Core Platform',
@@ -98,6 +173,7 @@ const experience = [
     title: 'Senior Frontend Engineer',
     company: 'Lazada (Alibaba Group)',
     logo: 'https://www.google.com/s2/favicons?domain=lazada.com&sz=64',
+    colors: { bg: 'rgba(240, 22, 78, 0.08)', border: 'rgba(240, 22, 78, 0.25)', accent: '#f0164e' },
     period: '2017 – 2019',
     location: 'Vietnam',
     team: 'Checkout & Payments',
@@ -201,13 +277,10 @@ export default function MePage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="flex flex-col items-center"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-3 sm:mb-4">
-              <span className="gradient-text">Phat Pham</span>
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-light">
-              Software Engineer · Builder · Problem Solver
-            </p>
+            <GraffitiName />
+            <FlipTitle />
           </motion.div>
 
           <motion.div
@@ -308,14 +381,23 @@ export default function MePage() {
           {experience.map((job, i) => (
             <motion.div
               key={i}
-              className="glass rounded-xl p-4 sm:p-6 space-y-3 glow sm:ml-12"
+              className="rounded-xl p-4 sm:p-6 space-y-3 sm:ml-12 backdrop-blur-md transition-all duration-300"
+              style={{
+                background: job.colors.bg,
+                border: `1px solid ${job.colors.border}`,
+                boxShadow: `0 0 20px ${job.colors.bg}, 0 0 60px ${job.colors.bg}`,
+              }}
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
+              whileHover={{ scale: 1.01, boxShadow: `0 0 30px ${job.colors.border}, 0 0 80px ${job.colors.bg}` }}
             >
               {/* Timeline dot — desktop only */}
-              <div className="absolute -left-[calc(3rem-5px)] top-8 w-2.5 h-2.5 rounded-full bg-primary border-2 border-background hidden sm:block" />
+              <div
+                className="absolute -left-[calc(3rem-5px)] top-8 w-2.5 h-2.5 rounded-full border-2 border-background hidden sm:block"
+                style={{ backgroundColor: job.colors.accent }}
+              />
 
               <div className="flex flex-col gap-2 sm:gap-3">
                 <div className="flex items-start gap-3">
@@ -326,7 +408,9 @@ export default function MePage() {
                   />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-foreground text-sm sm:text-base">{job.title}</h3>
-                    <p className="text-xs sm:text-sm text-accent">{job.company} · {job.team}</p>
+                    <p className="text-xs sm:text-sm" style={{ color: job.colors.accent }}>
+                      {job.company} · {job.team}
+                    </p>
                     <p className="text-xs text-muted-foreground mt-0.5 sm:hidden">
                       {job.period} · {job.location}
                     </p>
@@ -339,7 +423,7 @@ export default function MePage() {
               <ul className="space-y-1.5">
                 {job.highlights.map((h, j) => (
                   <li key={j} className="text-xs sm:text-sm text-muted-foreground flex gap-2">
-                    <span className="text-primary mt-0.5 sm:mt-1 shrink-0">›</span>
+                    <span className="mt-0.5 sm:mt-1 shrink-0" style={{ color: job.colors.accent }}>›</span>
                     <span>{h}</span>
                   </li>
                 ))}
