@@ -20,18 +20,23 @@ function Mermaid({ chart }) {
 
   useEffect(() => {
     if (!ref.current || !chart) return;
+    const el = ref.current;
     const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+    let cancelled = false;
     mermaid.render(id, chart).then(({ svg }) => {
-      ref.current.innerHTML = svg;
-      const svgEl = ref.current.querySelector('svg');
+      if (cancelled || !el) return;
+      el.innerHTML = svg;
+      const svgEl = el.querySelector('svg');
       if (svgEl) {
         svgEl.style.maxWidth = '100%';
         svgEl.style.height = 'auto';
         svgEl.style.maxHeight = '500px';
       }
     }).catch(() => {
-      ref.current.innerHTML = `<pre class="text-xs text-muted-foreground">${chart}</pre>`;
+      if (cancelled || !el) return;
+      el.innerHTML = `<pre class="text-xs text-muted-foreground">${chart}</pre>`;
     });
+    return () => { cancelled = true; };
   }, [chart]);
 
   return (
