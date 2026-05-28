@@ -144,7 +144,7 @@ export default function PostPage() {
   const isAtBottom = useCallback(() => {
     const scrollBottom = window.innerHeight + window.scrollY;
     const docHeight = document.documentElement.scrollHeight;
-    return docHeight - scrollBottom < 5;
+    return docHeight - scrollBottom < 100;
   }, []);
 
   const updateProgress = useCallback((delta) => {

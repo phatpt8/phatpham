@@ -39,6 +39,7 @@ export function getAllPosts() {
       title: meta.title || slug,
       date: meta.date || '2026-01-01',
       tags: Array.isArray(meta.tags) ? meta.tags : [],
+      cover: meta.cover || null,
       excerpt: meta.excerpt || content.slice(0, 160),
       content,
       readTime,

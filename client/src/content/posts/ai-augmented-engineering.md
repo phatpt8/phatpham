@@ -2,6 +2,7 @@
 title: How I Actually Use AI (It's Not Just Copilot)
 date: 2025-01-15
 tags: [ai, productivity, personal]
+cover: covers/cover-ai-augmented-engineering.png
 excerpt: Everyone's talking about AI for coding. But the real gains? They're in the weird places nobody mentions. Here's my honest journey.
 ---
 
@@ -13,7 +14,7 @@ That was the moment I stopped thinking about AI as "code autocomplete" and start
 
 ## The embarrassing beginning
 
-I'll be honest — my first month with AI tools was cringe. I was prompting things like "build me a React component that does X" and then spending more time fixing the output than if I'd just written it myself. Classic trap.
+I'll be honest, my first month with AI tools was cringe. I was prompting things like "build me a React component that does X" and then spending more time fixing the output than if I'd just written it myself. Classic trap.
 
 The turning point was when I stopped asking AI to *write code for me* and started asking it to *think with me*.
 
@@ -21,7 +22,7 @@ The turning point was when I stopped asking AI to *write code for me* and starte
 
 ### 1. I draft specs with AI, not code
 
-Before I write a single line, I describe what I want to build in plain language. Not to generate code — to pressure-test my own thinking. When the AI asks "what happens when X fails?" and I don't have an answer, that's a gap in my design I would've discovered at 2am in production instead.
+Before I write a single line, I describe what I want to build in plain language. Not to generate code, but to pressure-test my own thinking. When the AI asks "what happens when X fails?" and I don't have an answer, that's a gap in my design I would've discovered at 2am in production instead.
 
 ### 2. I use it as a rubber duck on steroids
 
@@ -31,7 +32,7 @@ You know how explaining a bug to a colleague often makes you solve it mid-senten
 
 Okay, "fun" is a stretch. But I went from writing docs once a quarter (guilt-driven) to documenting as I go. I describe the system, AI structures it, I polish the voice. My team actually reads our docs now. Wild.
 
-### 4. Beyond coding — the weird stuff
+### 4. Beyond coding: the weird stuff
 
 This is where it gets interesting:
 
@@ -46,17 +47,17 @@ This is where it gets interesting:
 
 **Skipping the understanding.** If I can't explain *why* the AI-generated code works, I don't ship it. Period. I've seen too many "it works but nobody knows how" systems. They always blow up at 3am on a Friday.
 
-**Treating it as a senior engineer.** It's not. It's more like a very fast, very well-read intern. Great at execution, needs direction.
+**Treating it as a senior engineer.** It's not. It's more like a very fast, very well-read intern. Great at execution, needs direction. The moment you stop thinking critically because "AI said so," you're in trouble.
 
 ## The next frontier (what I'm experimenting with)
 
 I think we're barely scratching the surface. Here's what I'm exploring:
 
-**AI as a code reviewer** — not replacing human review, but as a first pass that catches the obvious stuff so my teammates can focus on architecture and intent.
+**AI as a code reviewer**: not replacing human review, but as a first pass that catches the obvious stuff so my teammates can focus on architecture and intent.
 
-**Automated context building** — imagine your AI assistant actually understanding your entire codebase, your team's conventions, your deployment patterns. We're getting close.
+**Automated context building**: imagine your AI assistant actually understanding your entire codebase, your team's conventions, your deployment patterns. We're getting close.
 
-**Personal knowledge management** — I have tons of scattered notes, bookmarks, and "I read about this somewhere" memories. AI that can surface relevant past learnings when I'm working on something new? That's the dream.
+**Personal knowledge management**: I have tons of scattered notes, bookmarks, and "I read about this somewhere" memories. AI that can surface relevant past learnings when I'm working on something new? That's the dream.
 
 ## The honest truth
 

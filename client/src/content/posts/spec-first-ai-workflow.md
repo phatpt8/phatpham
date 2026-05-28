@@ -1,11 +1,12 @@
 ---
-title: Spec First, Code Second — How AI Flipped My Workflow
+title: Spec First, Code Second. How AI Flipped My Workflow
 date: 2025-04-22
 tags: [ai, workflow, engineering]
+cover: covers/cover-spec-first-ai-workflow.png
 excerpt: I used to jump straight into code. Now I spend more time writing specs than implementation. Sounds slower. It's actually 3x faster. Here's the workflow shift that changed everything.
 ---
 
-# Spec First, Code Second — How AI Flipped My Workflow
+# Spec First, Code Second. How AI Flipped My Workflow
 
 I have a confession: I used to be a "figure it out while coding" engineer. Open the IDE, start typing, refactor three times, realize I missed a requirement, refactor again. Ship it Friday. Hotfix Monday.
 
@@ -75,7 +76,7 @@ The magic isn't in AI writing the spec. It's in AI *challenging* the spec.
 
 I paste my spec and ask: "What am I missing? What edge cases haven't I considered? What will break at scale?"
 
-Every single time, it catches something I missed. Not because AI is smarter — but because I have blind spots, and AI is a relentless rubber duck that never gets tired of asking "but what if...?"
+Every single time, it catches something I missed. Not because AI is smarter, but because I have blind spots, and AI is a relentless rubber duck that never gets tired of asking "but what if...?"
 
 ## The implementation plan
 
@@ -104,7 +105,7 @@ This workflow *feels* slower at the start. You're writing instead of coding. You
 
 But by day three? You've shipped more, with fewer bugs, and zero "oh we need to redesign this" conversations in code review.
 
-The total time from ticket to production dropped by about 40% for me. Not because I code faster — but because I code *once*.
+The total time from ticket to production dropped by about 40% for me. Not because I code faster, but because I code *once*.
 
 ## When to skip it
 
@@ -116,7 +117,7 @@ The spec-first approach shines when:
 - Other people need to review or extend your work
 - You catch yourself thinking "this might be tricky"
 
-If it might be tricky — it is. Write the spec.
+If it might be tricky, it is. Write the spec.
 
 ## The bigger picture
 

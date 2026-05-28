@@ -223,7 +223,7 @@ function RotatingQuote() {
   }, []);
 
   return (
-    <div className="text-center space-y-4 min-h-[120px] flex flex-col items-center justify-center">
+    <div className="text-center space-y-4 min-h-[120px] flex flex-col items-center justify-center" aria-live="polite" aria-atomic="true">
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
@@ -233,10 +233,12 @@ function RotatingQuote() {
           transition={{ duration: 0.5 }}
           className="space-y-3"
         >
-          <blockquote className="text-2xl md:text-3xl font-light italic text-muted-foreground leading-relaxed">
-            "{quotes[index].text}"
-          </blockquote>
-          <p className="text-sm text-muted-foreground/70">— {quotes[index].author}</p>
+          <figure>
+            <blockquote className="text-2xl md:text-3xl font-light italic text-muted-foreground leading-relaxed">
+              "{quotes[index].text}"
+            </blockquote>
+            <figcaption className="text-sm text-muted-foreground/70 mt-3">{quotes[index].author}</figcaption>
+          </figure>
         </motion.div>
       </AnimatePresence>
 
@@ -285,8 +287,7 @@ export default function MePage() {
     <div className="relative">
       <GridBackground />
 
-      {/* Hero Section — full viewport, centered */}
-      <section ref={heroRef} className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center justify-center px-4 sm:px-6 py-12 sm:py-0">
+      <section ref={heroRef} aria-label="Introduction" className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center justify-center px-4 sm:px-6 py-12 sm:py-0">
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
           className="text-center space-y-6 sm:space-y-8 max-w-3xl mx-auto w-full"
@@ -316,12 +317,12 @@ export default function MePage() {
             className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap text-xs sm:text-sm text-muted-foreground"
           >
             <span className="flex items-center gap-1.5">
-              <MapPin size={14} />
+              <MapPin size={14} aria-hidden="true" />
               Berlin, Germany
             </span>
-            <span className="text-border hidden sm:inline">•</span>
+            <span className="text-border hidden sm:inline" aria-hidden="true">•</span>
             <span className="flex items-center gap-1.5">
-              <Mail size={14} />
+              <Mail size={14} aria-hidden="true" />
               phatpt8@gmail.com
             </span>
             <span className="text-border hidden sm:inline">•</span>
@@ -330,6 +331,7 @@ export default function MePage() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-primary hover:text-accent transition-colors"
+              aria-label="LinkedIn profile (opens in new tab)"
             >
               <LinkedinIcon size={14} />
               LinkedIn
@@ -345,18 +347,19 @@ export default function MePage() {
               href={`${import.meta.env.BASE_URL}ppham-cv.pdf`}
               download="Phat_Pham_CV.pdf"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]"
+              aria-label="Download CV as PDF"
             >
-              <Download size={16} />
+              <Download size={16} aria-hidden="true" />
               Download CV
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator — hidden on mobile */}
         <motion.div
           className="absolute bottom-3 left-1/2 -translate-x-1/2 hidden sm:flex"
           animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
+          aria-hidden="true"
         >
           <div className="w-4 h-7 rounded-full border-2 border-muted-foreground/20 flex justify-center pt-1.5">
             <div className="w-0.5 h-1.5 rounded-full bg-primary/40" />
@@ -383,11 +386,10 @@ export default function MePage() {
         </section>
       </ParallaxSection>
 
-      {/* Experience */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-6 sm:space-y-8 relative">
+      <section aria-label="Work experience" className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-6 sm:space-y-8 relative">
         <ParallaxSection offset={20}>
           <h2 className="flex items-center justify-center gap-2 text-xl sm:text-2xl font-semibold">
-            <Briefcase size={20} className="text-primary" />
+            <Briefcase size={20} className="text-primary" aria-hidden="true" />
             Experience
           </h2>
         </ParallaxSection>
@@ -482,7 +484,7 @@ export default function MePage() {
       <ParallaxSection offset={25}>
         <section className="max-w-4xl mx-auto px-6 py-16 space-y-8">
           <h2 className="flex items-center justify-center gap-2 text-2xl font-semibold">
-            <Code2 size={22} className="text-primary" />
+            <Code2 size={22} className="text-primary" aria-hidden="true" />
             Technical Stack
           </h2>
 
@@ -518,7 +520,7 @@ export default function MePage() {
       <ParallaxSection offset={15}>
         <section className="max-w-4xl mx-auto px-6 py-16 space-y-8">
           <h2 className="flex items-center justify-center gap-2 text-2xl font-semibold">
-            <GraduationCap size={22} className="text-primary" />
+            <GraduationCap size={22} className="text-primary" aria-hidden="true" />
             Education
           </h2>
           <motion.div

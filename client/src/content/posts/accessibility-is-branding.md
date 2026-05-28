@@ -1,13 +1,14 @@
 ---
-title: Accessibility Isn't Charity — It's Your Best Growth Hack
+title: Accessibility Isn't Charity, It's Your Best Growth Hack
 date: 2025-02-10
 tags: [accessibility, ux, product]
+cover: covers/cover-accessibility-is-branding.png
 excerpt: We treated accessibility as a compliance checkbox for years. Then we actually looked at the data. Turns out, making your product usable for everyone makes everyone use your product more.
 ---
 
-# Accessibility Isn't Charity — It's Your Best Growth Hack
+# Accessibility Isn't Charity, It's Your Best Growth Hack
 
-I used to skip the accessibility ticket. You know the one — it sits at the bottom of the backlog, tagged "nice-to-have", slowly gathering dust while we ship "real features."
+I used to skip the accessibility ticket. You know the one. It sits at the bottom of the backlog, tagged "nice-to-have", slowly gathering dust while we ship "real features."
 
 Then one day our PM showed me a stat: 15% of our mobile users had font scaling enabled. Fifteen percent. Our app looked like a ransom note at 1.5x. Buttons overlapped. Text got clipped. CTAs disappeared.
 
@@ -26,7 +27,7 @@ Every accessibility improvement is a UX improvement in disguise.
 
 ## How it builds your brand
 
-When your product just *works* — regardless of how someone uses it — people notice. Not consciously. They don't think "wow, great ARIA labels." They think "this app feels good."
+When your product just *works*, regardless of how someone uses it, people notice. Not consciously. They don't think "wow, great ARIA labels." They think "this app feels good."
 
 That feeling is what makes people come back. It's the difference between an app you tolerate and one you recommend to friends.
 
@@ -47,13 +48,13 @@ You don't need to boil the ocean. Start with these:
 
 **Focus management**: When a modal opens, focus should go there. When it closes, focus should return. Simple concept, broken in 90% of SPAs.
 
-**Color isn't information**: If the only way to know something is an error is "it's red" — you've excluded 8% of men who have some form of color blindness.
+**Color isn't information**: If the only way to know something is an error is "it's red," you've excluded 8% of men who have some form of color blindness.
 
 **Touch targets**: 44x44 pixels minimum. Your thumb isn't a pixel-perfect laser pointer, especially on a moving bus.
 
 ## The business case nobody argues with
 
-We ran an experiment: made our checkout flow fully accessible (proper labels, keyboard nav, error announcements). Conversion went up 4% across *all* users. Not just users with assistive tech — everyone.
+We ran an experiment: made our checkout flow fully accessible (proper labels, keyboard nav, error announcements). Conversion went up 4% across *all* users. Not just users with assistive tech. Everyone.
 
 Why? Because accessible design forced us to make the flow clearer. Better labels meant less confusion. Proper error handling meant fewer abandoned carts. Keyboard support meant faster completion for power users.
 
@@ -63,7 +64,7 @@ The accessibility work paid for itself in two weeks.
 
 I'm not gonna pretend I write perfect ARIA attributes on the first try. I still forget `alt` text sometimes. But the shift from "accessibility is extra work" to "accessibility is how I build" changed the quality of everything I ship.
 
-Your product is a habit machine. The easier you make it to use — for everyone, in every context — the stickier it becomes. That's not charity. That's just good engineering.
+Your product is a habit machine. The easier you make it to use, for everyone, in every context, the stickier it becomes. That's not charity. That's just good engineering.
 
 ---
 
