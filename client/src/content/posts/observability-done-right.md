@@ -8,7 +8,7 @@ excerpt: Your system is on fire. The on-call engineer has 5 minutes to figure ou
 
 ## The War Room That Shaped My Thinking
 
-At Lazada (Alibaba Group), we had a war room culture. Every major feature deploy, the entire team sat in one room: engineers, QA, PMs, sometimes the VP. Screens everywhere. Grafana dashboards, log streams, real-time transaction metrics.
+At Lazada (Alibaba Group), we had a war room culture. Every major feature deploy, the entire team sat in one room: engineers, QA, PMs, sometimes the VP. Screens everywhere. [Grafana](https://grafana.com/) dashboards, log streams, real-time transaction metrics.
 
 The goal was simple: detect problems before users do. The moment a metric dipped, someone would call it out. "Payment success rate dropping in Indonesia." Heads turn. Someone pulls up traces. Someone checks the deploy diff. Within seconds, the room is narrowing down the cause.
 
@@ -20,21 +20,30 @@ That experience taught me: observability isn't about *having* logs. It's about w
 
 The single most impactful thing you can do for observability: **pass a request ID from the very first entry point to the very last service.**
 
-When a user hits your system, a unique trace ID should be born at the edge (Cloudflare, your CDN, your API gateway) and travel through every single hop: load balancer, API service, queue, worker, database call, third-party API, response.
+When a user hits your system, a unique [trace ID](https://opentelemetry.io/docs/concepts/signals/traces/) should be born at the edge (Cloudflare, your CDN, your API gateway) and travel through every single hop: load balancer, API service, queue, worker, database call, third-party API, response.
 
-```
-User → Cloudflare (generates X-Request-Id: abc-123)
-  → API Gateway (propagates abc-123)
-    → Auth Service (logs with abc-123)
-    → Payment Service (logs with abc-123)
-      → Stripe API (sends abc-123 as idempotency context)
-    → Notification Service (logs with abc-123)
-  → Response (includes abc-123 in headers)
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant CF as Cloudflare
+    participant GW as API Gateway
+    participant Auth as Auth Service
+    participant Pay as Payment Service
+    participant S as Stripe API
+    participant N as Notification Service
+    U->>CF: Request
+    Note over CF: generates X-Request-Id: abc-123
+    CF->>GW: propagates abc-123
+    GW->>Auth: logs with abc-123
+    GW->>Pay: logs with abc-123
+    Pay->>S: abc-123 as idempotency context
+    GW->>N: logs with abc-123
+    GW-->>U: Response (abc-123 in headers)
 ```
 
 When something breaks, you search for ONE ID and see the entire journey. Every service it touched, every decision it made, every error it hit. No guessing. No correlating timestamps. One search.
 
-This is what OpenTelemetry gives you for free if you follow the standard. Traces, spans, context propagation. Stop inventing your own correlation system. The industry solved this.
+This is what [OpenTelemetry](https://opentelemetry.io/) gives you for free if you follow the standard. [Traces, spans, context propagation](https://opentelemetry.io/docs/concepts/signals/traces/). Stop inventing your own correlation system. The industry solved this.
 
 ## First Question in Any Incident: What Changed?
 
@@ -91,11 +100,21 @@ A healthy observability system lets you:
 
 **Zoom out:** See all traffic at a glance. What's the overall health? What percentage of requests are succeeding? Which services are degraded? Think of this as the satellite view. Traffic heatmaps, service dependency graphs, top-level SLOs.
 
-**Zoom in:** Pick one user, one session, one request. See their exact journey through your system. Click by click. API call by API call. Like Datadog RUM or FullStory, but connected to your backend traces.
+**Zoom in:** Pick one user, one session, one request. See their exact journey through your system. Click by click. API call by API call. Like [Datadog RUM](https://docs.datadoghq.com/real_user_monitoring/) or FullStory, but connected to your backend traces.
 
 The magic happens when you can go from "checkout success rate dropped 3%" to "here are the 50 users who failed, and here's exactly what happened in each of their sessions" in under 2 minutes.
 
 This is the funnel: high-level metrics → service-level dashboards → individual traces → specific log lines. Each level should link to the next. No dead ends.
+
+```mermaid
+graph TD
+    A["Top-level SLOs<br/>(is the system healthy?)"] --> B["Service dashboards<br/>(which service is degraded?)"]
+    B --> C["Individual traces<br/>(which requests failed?)"]
+    C --> D["Specific log lines<br/>(what exactly happened?)"]
+    D --> E["Root cause<br/>(what do I fix?)"]
+```
+
+Each box drills one level deeper. The goal is a path from "something feels off" to "here is the broken line of code" without ever hitting a dead end.
 
 ## Meaningful Logs: Stop Logging Garbage
 
@@ -157,7 +176,7 @@ For this to work, your system needs:
 - Clear deployment annotations
 - Real user impact metrics (not just error counts)
 - Runbooks in a structured, parseable format
-- Safe rollback mechanisms (canary deploys, feature flags)
+- Safe rollback mechanisms ([canary deploys](https://martinfowler.com/bliki/CanaryRelease.html), [feature flags](https://martinfowler.com/articles/feature-toggles.html))
 - Permission boundaries (what can AI touch vs what needs human approval)
 
 The teams that invest in good observability now are the ones that will benefit most from AI ops later.
@@ -168,7 +187,7 @@ At Lazada (Alibaba Group), we had a KPI: zero P0 incidents per team per month. A
 
 When your incident costs $50,000 per minute in lost revenue, the ROI of investing in observability is *trivially* obvious. But even at smaller companies:
 
-**Faster incident resolution:** Good observability cuts MTTR from hours to minutes. That's real money saved and real customers retained.
+**Faster incident resolution:** Good observability cuts [MTTR](https://en.wikipedia.org/wiki/Mean_time_to_repair) from hours to minutes. That's real money saved and real customers retained.
 
 **Understanding your users:** When you can trace a user's full journey, you stop guessing why they drop off. You *see* it. The button that doesn't respond. The API that times out. The flow that confuses.
 
@@ -178,11 +197,11 @@ When your incident costs $50,000 per minute in lost revenue, the ROI of investin
 
 If you're starting from zero, here's your priority order:
 
-1. **Request ID propagation** from edge to every service (OpenTelemetry)
+1. **Request ID propagation** from edge to every service ([OpenTelemetry](https://opentelemetry.io/))
 2. **Deployment markers** on all dashboards
 3. **User impact percentage** in alerts, not raw error counts
 4. **Structured logs** with business context (who, what, why, how bad)
-5. **Zoom out/zoom in** capability (high-level SLOs to individual traces)
+5. **Zoom out/zoom in** capability (high-level [SLOs](https://sre.google/sre-book/service-level-objectives/) to individual traces)
 6. **Runbooks** that a stranger (or an AI) can follow
 7. **Data retention strategy** that balances cost vs usefulness
 8. **Bot detection** to separate real user signals from noise

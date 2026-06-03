@@ -37,10 +37,10 @@ Here's how I design IAM systems now:
 ### Layer 1: Identity Service
 
 This is the "who are you?" layer. It handles:
-- Authentication (password, OAuth, SAML, passkeys)
+- Authentication (password, [OAuth](https://oauth.net/2/), [SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language), [passkeys](https://fidoalliance.org/passkeys/))
 - Credential storage (hashed passwords, linked social accounts)
 - Session management (tokens, refresh cycles)
-- MFA/2FA
+- [MFA/2FA](https://en.wikipedia.org/wiki/Multi-factor_authentication)
 
 One record per human. Period. This service doesn't know about your app's business logic. It doesn't know what an "organization" is. It just answers: "Is this person who they claim to be?"
 
@@ -80,7 +80,7 @@ When you authenticate, the Identity Service sets a session cookie on its own dom
 
 **3. Token Exchange Per App**
 
-When you navigate to YouTube, YouTube doesn't check its own auth. It redirects to the Identity Service, which sees the existing session cookie and says "oh, you're already logged in," then issues a *scoped token* for YouTube specifically.
+When you navigate to YouTube, YouTube doesn't check its own auth. It redirects to the Identity Service, which sees the existing session cookie and says "oh, you're already logged in," then issues a *scoped token* (typically a [JWT](https://datatracker.ietf.org/doc/html/rfc7519)) for YouTube specifically.
 
 The user never sees a login screen. It looks seamless. But under the hood, each app got its own token with its own permissions.
 
@@ -105,7 +105,7 @@ Every single one of these people needs *different* access to the *same* evidence
 
 ### Composite Permission Strings
 
-The pattern that worked beautifully was **composite permission strings**: `resource.action` scoped to a role.
+The pattern that worked beautifully was **composite permission strings**: `resource.action` scoped to a role. This is [role-based access control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) at its most practical.
 
 ```
 officer.evidence.view
@@ -276,13 +276,13 @@ graph TD
 
 **Decode without verifying first.** This sounds scary, but it's intentional. The payload tells you *which* secret to use for verification (different sources: web, iOS, Android use different signing keys). You can't verify without knowing the source.
 
-**Fast token store for revocation.** Refresh tokens are long-lived (90 days), so you need a way to revoke them instantly. Whether you use Redis, DynamoDB, or a document store, the key requirement is O(1) lookup by token ID. Revocation checks must be fast and cheap because they happen on every refresh.
+**Fast token store for revocation.** Refresh tokens are long-lived (90 days), so you need a way to revoke them instantly. Whether you use [Redis](https://redis.io/), [DynamoDB](https://aws.amazon.com/dynamodb/), or a document store, the key requirement is [O(1)](https://en.wikipedia.org/wiki/Time_complexity#Constant_time) lookup by token ID. Revocation checks must be fast and cheap because they happen on every refresh.
 
 **Refresh count tracking.** Every time a token is refreshed, the count increments. If you see a token being refreshed 500 times in an hour from different IPs, that's token theft. The count is your anomaly detection signal.
 
 **Conditional rotation at 90 days.** This is the sweet spot between security and UX. Rotating refresh tokens on every request creates race conditions in mobile apps (what if two API calls refresh simultaneously?). Rotating at 90 days means the window of exposure is bounded, but you avoid the "two tabs fighting over tokens" problem.
 
-**Source-specific secrets.** Web and native apps have different threat models. A web token stolen via XSS is different from a native token stolen via device compromise. Different secrets mean revoking one platform doesn't nuke the other.
+**Source-specific secrets.** Web and native apps have different threat models. A web token stolen via [XSS](https://owasp.org/www-community/attacks/xss/) is different from a native token stolen via device compromise. Different secrets mean revoking one platform doesn't nuke the other.
 
 ### Room for Improvement
 
@@ -296,7 +296,7 @@ No system is perfect. Here's what I'd push for depending on business needs:
 
 **Observability-driven rotation.** Instead of a fixed 90-day rotation, rotate based on risk signals: new IP, new device, unusual access pattern, long inactivity followed by sudden burst. This makes the system adaptive rather than calendar-driven.
 
-**Federated token exchange for microservices.** As the platform grows, internal services shouldn't pass the user's access token around. Implement token exchange (RFC 8693) so services get their own scoped tokens when acting on behalf of a user. This limits blast radius if one service is compromised.
+**Federated token exchange for microservices.** As the platform grows, internal services shouldn't pass the user's access token around. Implement token exchange ([RFC 8693](https://datatracker.ietf.org/doc/html/rfc8693)) so services get their own scoped tokens when acting on behalf of a user. This limits blast radius if one service is compromised.
 
 ## When to Split Into Microservices
 
@@ -304,11 +304,11 @@ For most teams, this can start as one service with clear internal boundaries. Bu
 
 **Split the Identity Service when:**
 - Multiple products need to share login (the Google model)
-- You need to support enterprise SSO (SAML/OIDC federation)
+- You need to support enterprise [SSO](https://en.wikipedia.org/wiki/Single_sign-on) ([SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)/[OIDC](https://openid.net/developers/how-connect-works/) federation)
 - Auth needs to scale independently from your app
 
 **Split the Authorization Service when:**
-- Permission logic becomes complex (RBAC to ABAC to ReBAC)
+- Permission logic becomes complex ([RBAC](https://en.wikipedia.org/wiki/Role-based_access_control) to [ABAC](https://en.wikipedia.org/wiki/Attribute-based_access_control) to [ReBAC](https://en.wikipedia.org/wiki/Relationship-based_access_control))
 - Multiple services need to check permissions consistently
 - You want to change permission models without redeploying everything
 

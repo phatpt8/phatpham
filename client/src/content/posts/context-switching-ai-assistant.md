@@ -10,7 +10,7 @@ excerpt: Platform engineers don't get the luxury of deep focus on one thing. You
 
 It's 10:30am on a Tuesday. In the last hour I've:
 
-1. Investigated why a payment webhook is failing silently
+1. Investigated why a payment [webhook](https://en.wikipedia.org/wiki/Webhook) is failing silently
 2. Reviewed a PR that touches our auth middleware
 3. Answered a Slack thread about why staging is down
 4. Started designing a new caching layer
@@ -39,6 +39,8 @@ When I'm deep in a problem and get interrupted, I take 30 seconds to write a bre
 // next: check if nginx strips the header on the proxy
 ```
 
+(That middle line is a classic [`Content-Type`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) gotcha, easy to forget after a context switch.)
+
 That tiny note saves 15 minutes of "wait, where was I?" when I come back.
 
 ### 2. AI as context loader
@@ -55,6 +57,19 @@ When multiple things land on my plate simultaneously, I don't try to hold them a
 - **Urgent + someone else can start**: Delegate with context
 - **Important but not burning**: Add to today's list with a one-liner
 - **Everything else**: It'll come back around if it actually matters
+
+It's basically an [Eisenhower matrix](https://en.wikipedia.org/wiki/Time_management#The_Eisenhower_Method) collapsed into a reflex:
+
+```mermaid
+graph TD
+    A[New thing lands] --> B{Urgent?}
+    B -->|No| C{Actually important?}
+    C -->|Yes| D[Add to today's list<br/>+ one-line breadcrumb]
+    C -->|No| E[Drop it<br/>it'll come back if it matters]
+    B -->|Yes| F{Only I can do it?}
+    F -->|Yes| G[Do it now]
+    F -->|No| H[Delegate with context]
+```
 
 This sounds obvious written down. But in the heat of the moment, without a system, you end up doing whatever's loudest instead of whatever's most important.
 
@@ -80,11 +95,11 @@ Here's my actual daily AI usage:
 
 ## The uncomfortable truth about "flow state"
 
-Here's what nobody in platform engineering wants to admit: you might get 2 hours of uninterrupted focus per day. Maybe. On a good day.
+Here's what nobody in platform engineering wants to admit: you might get 2 hours of uninterrupted [flow state](https://en.wikipedia.org/wiki/Flow_(psychology)) per day. Maybe. On a good day.
 
 And that's... fine? 
 
-The engineers I admire most aren't the ones who need 4 hours of silence to be productive. They're the ones who can do meaningful work in 25-minute bursts between interruptions. They ship just as much. They just do it differently.
+The engineers I admire most aren't the ones who need 4 hours of silence to be productive. They're the ones who can do meaningful work in [25-minute bursts](https://en.wikipedia.org/wiki/Pomodoro_Technique) between interruptions. They ship just as much. They just do it differently.
 
 Flow state is great when you can get it. But building your entire productivity system around *needing* it is fragile. Build one that works without it.
 

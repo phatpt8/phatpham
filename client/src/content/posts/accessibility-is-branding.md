@@ -27,7 +27,7 @@ Every accessibility improvement is a UX improvement in disguise.
 
 ## How it builds your brand
 
-When your product just *works*, regardless of how someone uses it, people notice. Not consciously. They don't think "wow, great ARIA labels." They think "this app feels good."
+When your product just *works*, regardless of how someone uses it, people notice. Not consciously. They don't think "wow, great [ARIA](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA) labels." They think "this app feels good."
 
 That feeling is what makes people come back. It's the difference between an app you tolerate and one you recommend to friends.
 
@@ -38,19 +38,29 @@ I've seen this pattern at every company I've worked for:
 3. **Build habits** → people become loyal
 4. **Loyal users** → organic growth through word-of-mouth
 
+```mermaid
+graph LR
+    A[Accessibility work] --> B[Less friction]
+    B --> C[More completed flows]
+    C --> D[Habits form]
+    D --> E[Loyal users]
+    E --> F[Word-of-mouth growth]
+    F -.->|funds more| A
+```
+
 Accessibility is step one in that chain, and most teams skip it entirely.
 
 ## The practical stuff that actually matters
 
 You don't need to boil the ocean. Start with these:
 
-**Semantic HTML**: Stop using `<div onClick>` for everything. Use `<button>`. Use `<nav>`. Use headings in order. Your future self (and screen readers) will thank you.
+**[Semantic HTML](https://developer.mozilla.org/en-US/docs/Glossary/Semantics#semantics_in_html)**: Stop using `<div onClick>` for everything. Use `<button>`. Use `<nav>`. Use headings in order. Your future self (and screen readers) will thank you.
 
 **Focus management**: When a modal opens, focus should go there. When it closes, focus should return. Simple concept, broken in 90% of SPAs.
 
-**Color isn't information**: If the only way to know something is an error is "it's red," you've excluded 8% of men who have some form of color blindness.
+**Color isn't information**: If the only way to know something is an error is "it's red," you've excluded the [8% of men](https://en.wikipedia.org/wiki/Color_blindness) who have some form of color blindness. ([WCAG 1.4.1](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html) spells this out.)
 
-**Touch targets**: 44x44 pixels minimum. Your thumb isn't a pixel-perfect laser pointer, especially on a moving bus.
+**Touch targets**: [44x44 pixels minimum](https://www.w3.org/WAI/WCAG21/Understanding/target-size.html). Your thumb isn't a pixel-perfect laser pointer, especially on a moving bus.
 
 ## The business case nobody argues with
 
@@ -62,7 +72,7 @@ The accessibility work paid for itself in two weeks.
 
 ## The honest truth
 
-I'm not gonna pretend I write perfect ARIA attributes on the first try. I still forget `alt` text sometimes. But the shift from "accessibility is extra work" to "accessibility is how I build" changed the quality of everything I ship.
+I'm not gonna pretend I write perfect ARIA attributes or hit every [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) success criterion on the first try. I still forget `alt` text sometimes. But the shift from "accessibility is extra work" to "accessibility is how I build" changed the quality of everything I ship.
 
 Your product is a habit machine. The easier you make it to use, for everyone, in every context, the stickier it becomes. That's not charity. That's just good engineering.
 

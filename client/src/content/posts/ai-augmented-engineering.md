@@ -8,15 +8,32 @@ excerpt: Everyone's talking about AI for coding. But the real gains? They're in 
 
 # How I Actually Use AI (It's Not Just Copilot)
 
-Six months ago I caught myself spending 3 hours writing a Confluence page that explained a system I'd built in 45 minutes. Something was deeply wrong with that ratio.
+Six months ago I caught myself spending 3 hours writing a [Confluence](https://www.atlassian.com/software/confluence) page that explained a system I'd built in 45 minutes. Something was deeply wrong with that ratio.
 
 That was the moment I stopped thinking about AI as "code autocomplete" and started treating it as a thinking partner.
 
 ## The embarrassing beginning
 
-I'll be honest, my first month with AI tools was cringe. I was prompting things like "build me a React component that does X" and then spending more time fixing the output than if I'd just written it myself. Classic trap.
+I'll be honest, my first month with AI tools was cringe. I was prompting things like "build me a React component that does X" (basically treating it like [GitHub Copilot](https://github.com/features/copilot) and nothing more) and then spending more time fixing the output than if I'd just written it myself. Classic trap.
 
 The turning point was when I stopped asking AI to *write code for me* and started asking it to *think with me*.
+
+The mental switch looks like this, and the right branch is where the real gains live:
+
+```mermaid
+graph TD
+    A[I have a task] --> B{What do I actually need?}
+    B -->|Generate code| C["Autocomplete trap:<br/>fix output, lose time"]
+    B -->|Think with me| D[Draft specs together]
+    B -->|Think with me| E[Rubber-duck a bug]
+    B -->|Think with me| F[Structure docs]
+    B -->|Think with me| G[Pressure-test decisions]
+    D --> H[Ship with understanding]
+    E --> H
+    F --> H
+    G --> H
+    C -.->|usually slower| H
+```
 
 ## What I actually do differently
 
@@ -24,7 +41,7 @@ The turning point was when I stopped asking AI to *write code for me* and starte
 
 Before I write a single line, I describe what I want to build in plain language. Not to generate code, but to pressure-test my own thinking. When the AI asks "what happens when X fails?" and I don't have an answer, that's a gap in my design I would've discovered at 2am in production instead.
 
-### 2. I use it as a rubber duck on steroids
+### 2. I use it as a [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging) on steroids
 
 You know how explaining a bug to a colleague often makes you solve it mid-sentence? Same energy, but I can be incoherent and the AI still follows. I paste error logs, half-baked theories, and "this makes no sense but..." messages. It catches patterns I miss when I'm too close to the problem.
 

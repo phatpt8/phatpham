@@ -76,7 +76,7 @@ The magic isn't in AI writing the spec. It's in AI *challenging* the spec.
 
 I paste my spec and ask: "What am I missing? What edge cases haven't I considered? What will break at scale?"
 
-Every single time, it catches something I missed. Not because AI is smarter, but because I have blind spots, and AI is a relentless rubber duck that never gets tired of asking "but what if...?"
+Every single time, it catches something I missed. Not because AI is smarter, but because I have blind spots, and AI is a relentless [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging) that never gets tired of asking "but what if...?"
 
 ## The implementation plan
 
@@ -97,7 +97,7 @@ graph TD
     I --> J
 ```
 
-Each box is a focused task. No ambiguity. No "figure it out as you go." Just execution.
+Each box is a focused task with clear [integration](https://martinfowler.com/bliki/IntegrationTest.html) and [E2E test](https://martinfowler.com/articles/practical-test-pyramid.html) boundaries. No ambiguity. No "figure it out as you go." Just execution.
 
 ## The counterintuitive truth
 
@@ -109,7 +109,7 @@ The total time from ticket to production dropped by about 40% for me. Not becaus
 
 ## When to skip it
 
-I'm not a zealot. Quick bug fixes? Just fix them. Obvious changes? Just make them. One-line config updates? Don't write a spec for that, please.
+I'm not a zealot, and I try to apply [YAGNI](https://martinfowler.com/bliki/Yagni.html) here too. Quick bug fixes? Just fix them. Obvious changes? Just make them. One-line config updates? Don't write a spec for that, please.
 
 The spec-first approach shines when:
 - The feature has unknowns

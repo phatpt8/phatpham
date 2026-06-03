@@ -8,7 +8,7 @@ excerpt: Remember when choosing a state management library felt like picking a r
 
 # React's State Management Finally Grew Up
 
-I remember 2019. Starting a new React project meant spending three days arguing about state management. Redux? MobX? Context with useReducer? Roll your own with event emitters like a maniac?
+I remember 2019. Starting a new React project meant spending three days arguing about state management. [Redux](https://redux.js.org/)? [MobX](https://mobx.js.org/)? [Context](https://react.dev/reference/react/useContext) with [useReducer](https://react.dev/reference/react/useReducer)? Roll your own with event emitters like a maniac?
 
 Everyone had opinions. Nobody had answers. The "right" choice depended on which blog post you read last.
 
@@ -26,13 +26,28 @@ State comes in flavors:
 
 Using one tool for all three is like using a Swiss Army knife to cook dinner. Technically possible. Practically miserable.
 
+Once you stop looking for a single winner, the decision tree gets refreshingly boring:
+
+```mermaid
+graph TD
+    A[Where does this state live?] --> B{Comes from an API?}
+    B -->|Yes| C[Server state<br/>TanStack Query]
+    B -->|No| D{Should it survive a page refresh / be shareable?}
+    D -->|Yes| E[URL state<br/>Router params]
+    D -->|No| F{Needed across many components?}
+    F -->|Yes| G[Global client state<br/>Zustand]
+    F -->|No| H[Local state<br/>useState / useReducer]
+```
+
+Answer four questions, get the right tool. No religion required.
+
 ## The stack that actually works
 
 Here's what I reach for on every project now, and why:
 
 ### TanStack Query for server state
 
-This library single-handedly killed 80% of my Redux code. All that boilerplate for fetching, caching, refetching, loading states, error states? Gone.
+[TanStack Query](https://tanstack.com/query/latest) single-handedly killed 80% of my Redux code. All that boilerplate for fetching, caching, refetching, loading states, error states? Gone.
 
 ```javascript
 const { data, isLoading } = useQuery({
@@ -41,13 +56,13 @@ const { data, isLoading } = useQuery({
 });
 ```
 
-That's it. It handles caching, background refetching, stale-while-revalidate, pagination, infinite scroll. All the stuff I used to write manually with sagas and thunks and tears.
+That's it. It handles caching, background refetching, [stale-while-revalidate](https://datatracker.ietf.org/doc/html/rfc5861), pagination, infinite scroll. All the stuff I used to write manually with [sagas](https://redux-saga.js.org/) and thunks and tears.
 
 The moment I stopped treating server data as "state I manage" and started treating it as "a cache I keep fresh," everything got simpler.
 
 ### Zustand for client state
 
-Zustand is what I wished Redux was. Zero boilerplate. No providers. No context. Just a store.
+[Zustand](https://zustand.docs.pmnd.rs/) is what I wished Redux was. Zero boilerplate. No providers. No context. Just a store.
 
 ```javascript
 const useThemeStore = create((set) => ({
@@ -60,7 +75,7 @@ const useThemeStore = create((set) => ({
 
 Use it anywhere. No wrapping your app in seventeen providers. No "prop drilling vs context" debates. Just import and use.
 
-It's 1KB gzipped. It has middleware for persistence, devtools, immer. And it took me 5 minutes to learn.
+It's 1KB gzipped. It has middleware for persistence, devtools, [immer](https://immerjs.github.io/immer/). And it took me 5 minutes to learn.
 
 ### URL state for... URL state
 
@@ -68,11 +83,11 @@ This one sounds obvious but I see teams get it wrong all the time. If a user sho
 
 Filters? URL. Sort order? URL. Active tab? Probably URL. 
 
-React Router or TanStack Router handles this. Stop storing shareable state in useState.
+[React Router](https://reactrouter.com/) or [TanStack Router](https://tanstack.com/router/latest) handles this. Stop storing shareable state in useState.
 
 ## What about Redux?
 
-Redux isn't bad. Redux Toolkit actually made it quite nice. But for most apps? It's solving a problem you don't have anymore.
+Redux isn't bad. [Redux Toolkit](https://redux-toolkit.js.org/) actually made it quite nice. But for most apps? It's solving a problem you don't have anymore.
 
 If your app needs complex client-side state machines with time-travel debugging and middleware chains, sure, Redux. If you're building a normal web app that fetches data and shows it to people, you're overengineering.
 
@@ -102,7 +117,7 @@ A state model that's **screen-aware**. Keep what's relevant. Release what's not.
 - Stores that auto-dispose when their associated route unmounts
 - Component trees that fully unmount, not just hide, when navigated away from
 
-TanStack Query's `gcTime` gets close, but it's time-based, not navigation-based. Zustand stores live forever by design. React's concurrent features help with rendering but don't solve memory.
+TanStack Query's [`gcTime`](https://tanstack.com/query/latest/docs/framework/react/guides/caching) gets close, but it's time-based, not navigation-based. Zustand stores live forever by design. React's [concurrent features](https://react.dev/blog/2022/03/29/react-v18) help with rendering but don't solve memory.
 
 I don't have the full answer yet. But I think the next evolution of React state management isn't about *how* we manage state. It's about *when we let it go*.
 
