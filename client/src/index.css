@@ -99,6 +99,44 @@ html {
   animation: shimmer 1.5s infinite ease-in-out;
 }
 
+@keyframes drift {
+  0%, 100% { transform: translate(-25%, 0) scale(1); }
+  50% { transform: translate(-18%, 5%) scale(1.08); }
+}
+
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-6%, -6%) scale(1.1); }
+}
+
+@keyframes brandShine {
+  from { background-position: 0% center; }
+  to { background-position: 200% center; }
+}
+
+@keyframes brandPulse {
+  0%, 100% { filter: drop-shadow(0 0 16px rgba(99, 102, 241, 0.35)); }
+  50% { filter: drop-shadow(0 0 34px rgba(99, 102, 241, 0.7)); }
+}
+
+.brand-anim {
+  background-size: 200% auto;
+  animation: brandShine 5s linear infinite;
+}
+
+.brand-glow {
+  animation: brandPulse 3.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[drift_22s_ease-in-out_infinite\],
+  .animate-\[drift2_28s_ease-in-out_infinite\],
+  .brand-anim,
+  .brand-glow {
+    animation: none;
+  }
+}
+
 .prose {
   --tw-prose-body: var(--color-muted-foreground);
   --tw-prose-headings: var(--color-foreground);

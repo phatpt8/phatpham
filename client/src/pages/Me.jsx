@@ -535,6 +535,36 @@ export default function MePage() {
           </motion.div>
         </section>
       </ParallaxSection>
+
+      {/* Contact */}
+      <ParallaxSection offset={10}>
+        <section aria-label="Contact" className="max-w-3xl mx-auto px-6 py-16 sm:py-24 text-center space-y-6">
+          <h2 className="text-2xl sm:text-3xl font-semibold">Let's build something</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            Open to senior and lead engineering roles and high-impact collaborations.
+            The fastest way to reach me is email.
+          </p>
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <a
+              href="mailto:phatpt8@gmail.com"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]"
+            >
+              <Mail size={16} aria-hidden="true" />
+              phatpt8@gmail.com
+            </a>
+            <a
+              href="https://www.linkedin.com/in/peter-pham8/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg glass text-foreground text-sm font-medium glow-hover transition-all"
+              aria-label="LinkedIn profile (opens in new tab)"
+            >
+              <LinkedinIcon size={16} />
+              LinkedIn
+            </a>
+          </div>
+        </section>
+      </ParallaxSection>
     </div>
   );
 }

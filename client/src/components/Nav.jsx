@@ -258,7 +258,7 @@ export default function Nav() {
             aria-haspopup="menu"
             aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            <span aria-hidden="true">{open ? '✕' : '🥦'}</span>
+            <span aria-hidden="true">{open ? '✕' : location.pathname === '/me2' ? '🚀' : '🥦'}</span>
           </motion.button>
         </motion.div>
       </nav>

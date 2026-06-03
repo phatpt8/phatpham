@@ -4,6 +4,7 @@ import { useAuthStore } from './store/auth';
 import { useThemeStore } from './store/theme';
 import Layout from './components/Layout';
 import MePage from './pages/Me';
+import Me2Page from './pages/Me2';
 import BlogPage from './pages/Blog';
 import PostPage from './pages/Post';
 import EditorPage from './pages/Editor';
@@ -23,6 +24,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<Navigate to="/me" replace />} />
         <Route path="/me" element={<MePage />} />
+        <Route path="/me2" element={<Me2Page />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<PostPage />} />
         <Route path="/editor" element={<EditorPage />} />
