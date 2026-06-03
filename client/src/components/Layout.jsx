@@ -16,7 +16,7 @@ export default function Layout() {
         </motion.div>
       </main>
       <footer className="border-t border-border/50 py-6 text-center text-sm text-muted-foreground">
-        <p>Built with curiosity and craft — Phat Pham © {new Date().getFullYear()}</p>
+        <p>Built with curiosity and craft · Phat Pham © {new Date().getFullYear()}</p>
       </footer>
     </div>
   );

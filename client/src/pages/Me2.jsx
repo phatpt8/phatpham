@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion, MotionConfig } from 'motion/react';
 import { MapPin, Mail, Briefcase, Code2, GraduationCap, Download, ArrowUpRight, ChevronDown } from 'lucide-react';
 import { useThemeStore } from '../store/theme';
+import { identity, tagline, about, titles, scrambleChars, experience, earlier, skills, education } from '../data/profile';
 
-const EMAIL = 'phatpt8@gmail.com';
-const LINKEDIN = 'https://www.linkedin.com/in/peter-pham8/';
+const EMAIL = identity.email;
+const LINKEDIN = identity.linkedin;
 
 /* ----------------------------------------------------------------------------
  * Shared primitives
@@ -265,9 +266,6 @@ function CosmicBackground() {
  * Hero pieces
  * ------------------------------------------------------------------------- */
 
-const titles = ['Software Engineer', 'Builder', 'Problem Solver', 'Visualizer'];
-const scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
-
 function FlipTitle() {
   const prefersReducedMotion = useReducedMotion();
   const [display, setDisplay] = useState(titles[0]);
@@ -346,87 +344,12 @@ function BrandName() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        Phat Pham
-        <span className="sr-only"> Senior Software Engineer</span>
+        {identity.name}
+        <span className="sr-only">, {identity.role}</span>
       </motion.h1>
     </div>
   );
 }
-
-/* ----------------------------------------------------------------------------
- * Data
- * ------------------------------------------------------------------------- */
-
-const experience = [
-  {
-    title: 'Senior Fullstack Engineer',
-    company: 'Omio.com',
-    logo: 'https://www.google.com/s2/favicons?domain=omio.com&sz=64',
-    accent: '#0aa3ff',
-    period: '2025 – Present',
-    location: 'Berlin, Germany',
-    team: 'Platform Core & Payments',
-    highlights: [
-      'Drives technical direction across 4 teams (Search, UI Platform, Frontend Chapter, Payments), influencing architecture decisions at the org level',
-      'Identified and solved a cross-team error monitoring gap that reduced on-call alert noise by 70%, unblocking 3 squads simultaneously',
-      'Architected and delivered a Cypress E2E framework from zero, now the standard for payment and ancillary testing across the company',
-      'Pioneered AI-augmented engineering workflows (code gen, docs, review automation), multiplying personal output 3x and sharing patterns org-wide',
-    ],
-  },
-  {
-    title: 'Senior Frontend Engineer',
-    company: 'Just Eat Takeaway',
-    logo: 'https://www.google.com/s2/favicons?domain=justeattakeaway.com&sz=64',
-    accent: '#ff8000',
-    period: '2022 – 2025',
-    location: 'Berlin, Germany',
-    team: 'Core Platform',
-    highlights: [
-      'Sole technical owner of a multi-market ordering platform rollout serving 15M+ monthly active users across 6 countries',
-      'Redesigned the frontend observability layer from scratch, cutting mean time to resolution (MTTR) by 40% and enabling data-driven prioritisation',
-      'Built CI/CD tooling and shared utilities that compressed new engineer onboarding from 3 weeks to under 1 week',
-      'Mentored and grew 4 engineers into autonomous contributors through structured pairing and ownership delegation',
-    ],
-  },
-  {
-    title: 'Senior Fullstack Engineer',
-    company: 'Axon (taser.com)',
-    logo: 'https://www.google.com/s2/favicons?domain=axon.com&sz=64',
-    accent: '#ffd100',
-    period: '2019 – 2022',
-    location: 'Remote',
-    team: 'Core Platform',
-    highlights: [
-      'Led a full-stack migration from legacy C#/JS to React + TypeScript, cutting build times 60% and halving production bug rates',
-      'Designed and shipped an accessibility-compliant component library adopted across 6 products and 40+ engineers',
-      'Deployed identity and access management microservices on Kubernetes (Argo CD GitOps), achieving zero-downtime deploys and instant rollbacks',
-      'Collaborated directly with designers and PMs to reshape UX of mission-critical tools used daily by 10,000+ law enforcement officers',
-    ],
-  },
-  {
-    title: 'Senior Frontend Engineer',
-    company: 'Lazada (Alibaba Group)',
-    logo: 'https://www.google.com/s2/favicons?domain=lazada.com&sz=64',
-    accent: '#f0164e',
-    period: '2017 – 2019',
-    location: 'Vietnam',
-    team: 'Checkout & Payments',
-    highlights: [
-      'Owned the entire checkout and payment frontend processing millions of transactions daily under strict latency SLAs (p99 < 200ms)',
-      'Built an Incident & Risk Management tool adopted by Alibaba GOC 911, reducing escalation time from 15 min to under 2 min',
-      'Re-engineered frontend deployment pipelines, compressing release cycles from 4 hours to 8 minutes',
-    ],
-  },
-];
-
-const skills = {
-  'Frontend & UI': ['React', 'Next.js', 'TypeScript', 'Micro-frontends', 'SSR/SSG', 'Performance Tuning'],
-  'Backend & APIs': ['Node.js', 'REST', 'gRPC', 'Event-driven Architecture', 'Scala'],
-  'System Design': ['Distributed Systems', 'Domain-Driven Design', 'CQRS', 'High Availability'],
-  'Infrastructure': ['AWS', 'Kubernetes', 'Terraform', 'GitOps (Argo CD)', 'Observability'],
-  'Engineering Excellence': ['TDD', 'E2E Testing', 'CI/CD Pipelines', 'Monorepo Architecture', 'ADRs'],
-  'Leadership & AI': ['Technical Strategy', 'Cross-team Influence', 'Mentorship', 'AI-augmented Workflows'],
-};
 
 /* ----------------------------------------------------------------------------
  * Motion helpers
@@ -598,8 +521,7 @@ export default function Me2Page() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.6 }}
             >
-              I turn ambiguous problems into reliable, high-scale products, owning the path
-              from architecture to shipping.
+              {tagline}
             </motion.p>
 
             <motion.div
@@ -609,8 +531,8 @@ export default function Me2Page() {
               transition={{ delay: 0.7, duration: 0.5 }}
             >
               <a
-                href={`${import.meta.env.BASE_URL}ppham-cv.pdf`}
-                download="Phat_Pham_CV.pdf"
+                href={`${import.meta.env.BASE_URL}${identity.cvFile}`}
+                download={identity.cvDownloadName}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all hover:shadow-[0_0_24px_rgba(99,102,241,0.4)]"
                 aria-label="Download CV as PDF"
               >
@@ -667,11 +589,7 @@ export default function Me2Page() {
           <Section>
             <SectionHeader index="00" label="Profile" />
             <motion.p variants={reveal} className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Building high-traffic web platforms from zero to scale. I own problems
-              end-to-end, from shaping architecture and aligning stakeholders to shipping reliable,
-              user-facing software at pace. Equally sharp working independently and leading
-              cross-functional initiatives. I step into ambiguity, define the path forward, and
-              bring others along rather than waiting for direction.
+              {about}
             </motion.p>
           </Section>
 
@@ -696,18 +614,14 @@ export default function Me2Page() {
                   <Panel className="p-5 sm:p-6">
                     <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Earlier</h3>
                     <div className="space-y-2.5">
-                      <div className="flex items-center gap-3">
-                        <CompanyLogo src={null} alt="Apiumhub" className="w-6 h-6 sm:w-7 sm:h-7 shrink-0" />
-                        <p className="text-xs sm:text-sm text-muted-foreground">
-                          <strong className="text-foreground">Fullstack Engineer, Apiumhub</strong>. React & Node.js delivery for SaaS clients.
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <CompanyLogo src="https://www.google.com/s2/favicons?domain=vnexpress.net&sz=64" alt="VnExpress" className="w-6 h-6 sm:w-7 sm:h-7 shrink-0" />
-                        <p className="text-xs sm:text-sm text-muted-foreground">
-                          <strong className="text-foreground">JavaScript Developer, FPT Online (vnexpress.net)</strong>. Frontend for Vietnam's largest online newspaper.
-                        </p>
-                      </div>
+                      {earlier.map((e) => (
+                        <div key={e.company} className="flex items-center gap-3">
+                          <CompanyLogo src={e.logo} alt={e.company} className="w-6 h-6 sm:w-7 sm:h-7 shrink-0" />
+                          <p className="text-xs sm:text-sm text-muted-foreground">
+                            <strong className="text-foreground">{e.role}, {e.company}</strong>. {e.description}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </Panel>
                 </motion.div>
@@ -741,8 +655,8 @@ export default function Me2Page() {
             <SectionHeader index="03" label="Origin" title="Education" icon={GraduationCap} />
             <motion.div variants={reveal}>
               <Panel className="p-6 text-center">
-                <p className="font-medium text-lg">B.Sc. Computer Science</p>
-                <p className="text-muted-foreground mt-1 font-mono text-sm">FPT Greenwich University (UK), Vietnam · 2011–2016</p>
+                <p className="font-medium text-lg">{education.degree}</p>
+                <p className="text-muted-foreground mt-1 font-mono text-sm">{education.school} · {education.period}</p>
               </Panel>
             </motion.div>
           </Section>
